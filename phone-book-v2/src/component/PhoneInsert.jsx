@@ -10,11 +10,9 @@ const PhoneInsert = ({ insertPhoneBook }) => {
     setName("");
     setNumber("");
   };
-
   const inputName = (e) => {
     setName(e.target.value);
   };
-
   const inputNumber = (e) => {
     setNumber(e.target.value);
   };
@@ -22,12 +20,12 @@ const PhoneInsert = ({ insertPhoneBook }) => {
   return (
     <form className="phoneInsert">
       <input
-        placeholder="이름을 입력하세요 "
+        placeholder="이름을 입력하세요"
         value={name}
         onChange={inputName}
       />
       <input
-        placeholder="전화번호를 입력하세요 "
+        placeholder="전화번호를 입력하세요"
         value={number}
         onChange={inputNumber}
       />
