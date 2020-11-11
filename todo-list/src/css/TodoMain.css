@@ -1,0 +1,23 @@
+main.todo-main {
+  background-color: #ccc;
+  width: 520px;
+  margin: 4rem auto;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+main.todo-main h3 {
+  padding: 2rem;
+  font-size: 2.5rem;
+  text-align: center;
+  background: linear-gradient(
+    #ff2a2a,
+    #ff7a2a,
+    #ffc52a,
+    #43ff2a,
+    #2a89ff,
+    #202082,
+    #e82aff
+  );
+  color: darkslateblue;
+  font-family: fantasy;
+}
