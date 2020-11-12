@@ -1,0 +1,53 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+h2 {
+  font-family: "맑은고딕", "Malgun Gothic", serif;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+/*
+  100vh : 현재 창의 높이를 100%로 만들어라
+  100wh : 현재 창의 폭을 100%로 만들어라
+*/
+.App-header {
+  background: linear-gradient(
+    #ff2a2a,
+    #ff7a2a,
+    #ffc52a,
+    #43ff2a,
+    #2a89ff,
+    #202082,
+    #e82aff
+  );
+  /* min-height: 100vh; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #202082;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
