@@ -1,37 +1,21 @@
 import React, { Component } from "react";
 import BBSInsert from "./BBSInsert";
 import BBSList from "./BBSList";
+import axios from "axios";
 
-const BBS_INSERT_URL = "http://localhost:5000/api/insert";
-const BBS_UPDATE_URL = "http://localhost:5000/api/update";
-const BBS_FETCH_URL = "http://localhost:5000/api/bbsList";
-const BBS_FIND_BY_ID = "http://localhost:5000/api/view/";
+const BBS_INSERT_URL = "/api/insert";
+const BBS_UPDATE_URL = "/api/update";
+const BBS_FETCH_URL = "/api/bbsList";
+const BBS_FIND_BY_ID = "/api/view/";
 
 class BBSMain extends Component {
   timer = "";
   state = {
-    state1: "",
-    state2: "",
     isFetch: false,
     bbsList: [
-      {
-        id: 0,
-        b_writer: "홍길동",
-        b_date: "2020-11-13",
-        b_subject: "게시판",
-      },
-      {
-        id: 1,
-        b_writer: "이몽룡",
-        b_date: "2020-11-13",
-        b_subject: "게시판",
-      },
-      {
-        id: 2,
-        b_writer: "성춘향",
-        b_date: "2020-11-13",
-        b_subject: "게시판",
-      },
+      { id: 0, b_writer: "홍길동", b_date: "2020-11-13", b_subject: "게시판" },
+      { id: 1, b_writer: "이몽룡", b_date: "2020-11-13", b_subject: "게시판" },
+      { id: 2, b_writer: "성춘향", b_date: "2020-11-13", b_subject: "게시판" },
     ],
     bbsData: {
       isUpdate: false,
@@ -48,7 +32,7 @@ class BBSMain extends Component {
     // setInterval(calback,time)
     // 최초의 calback함수가 실행되고 이후에 time 만큼 경과하면
     // 또 calback함수를 계속해서 실행하라
-    this.tumer = setInterval(() => this.fetchBBsList(), 5000);
+    // this.tumer = setInterval(() => this.fetchBBsList(), 5000);
   }
 
   // react에서 setInterval()을 사용하여 어떤 함수를 실행하면
@@ -78,6 +62,28 @@ class BBSMain extends Component {
       .catch((err) => console.log(err));
   };
 
+  bbsSave = (bbsData) => {
+    const { b_id, b_writer, b_subject, b_content, isUpdate } = bbsData;
+    const url = isUpdate ? BBS_UPDATE_URL : BBS_INSERT_URL;
+    const b_date_time = isUpdate
+      ? bbsData.b_date_time
+      : Date().toString()
+      ? this.state.b_date_time
+      : Date().toString();
+    axios
+      .post(url, {
+        b_id: b_id,
+        b_writer: b_writer,
+        b_subject: b_subject,
+        b_content: b_content,
+        b_date_time: b_date_time,
+      })
+      .then((result) => {
+        console.log(result);
+        this.fetchBBsList();
+      });
+  };
+
   handleUpdate = (id) => {
     fetch(BBS_FIND_BY_ID + id)
       .then((res) => {
@@ -85,6 +91,7 @@ class BBSMain extends Component {
       })
       .then((result) => {
         console.log(result);
+        this.fetchBBsList();
         // 서버로 부터 가져온 게시판 데이터를 bbsData에 풀어 놓고
         // isUpdate 칼럼만 true로 만들어라
         this.setState({ bbsData: { ...result, isUpdate: true } });
@@ -92,21 +99,16 @@ class BBSMain extends Component {
       });
   };
   render() {
-    const { bbsList, state1, state2 } = this.state;
+    const { state, bbsSave, fetchBBsList, handleUpdate } = this;
+    const { bbsList, bbsData, isFetch } = state;
     return (
       <div>
-        <BBSInsert
-          insertURL={BBS_INSERT_URL}
-          updateURL={BBS_UPDATE_URL}
-          bbsData={this.state.bbsData}
-        />
-        <p>{this.state.isFetch ? "데이터가져오는중..." : "완료"}</p>
+        <BBSInsert bbsSave={bbsSave} bbsData={bbsData} />
+        <p>{isFetch ? "데이터가져오는중..." : "완료"}</p>
         <BBSList
           bbsList={bbsList}
-          fetchBBs={this.fetchBBsList}
-          state1={state1}
-          state2={state2}
-          handleUpdate={this.handleUpdate}
+          fetchBBs={fetchBBsList}
+          handleUpdate={handleUpdate}
         />
       </div>
     );
