@@ -14,11 +14,12 @@ class BBSList extends Component {
         handleUpdate={handleUpdate}
       />
     ));
+
     return (
       <table className="bbs-list">
         <thead>
           <tr>
-            <th>NO</th>
+            <th>No</th>
             <th>작성자</th>
             <th>작성일자</th>
             <th>제목</th>

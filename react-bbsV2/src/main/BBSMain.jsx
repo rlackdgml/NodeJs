@@ -29,10 +29,10 @@ class BBSMain extends Component {
 
   componentDidMount() {
     this.fetchBBsList();
-    // setInterval(calback,time)
-    // 최초의 calback함수가 실행되고 이후에 time 만큼 경과하면
-    // 또 calback함수를 계속해서 실행하라
-    // this.tumer = setInterval(() => this.fetchBBsList(), 5000);
+    // setInterval(callback,time)
+    // 최초에 callbak함수가 실행되고 이후에 time 만큼 경과하면
+    // 또 callback함수를 계속해서 실행하라
+    // this.timer = setInterval(() => this.fetchBBsList(), 5000);
   }
 
   // react에서 setInterval()을 사용하여 어떤 함수를 실행하면
@@ -42,12 +42,13 @@ class BBSMain extends Component {
     this.timer = null;
   }
 
+  // JS 에 표준으로 내장된 ajax method
   fetchBBsList = () => {
     this.setState({ ...this.state, isFetch: true });
     fetch(BBS_FETCH_URL)
       .then((res) => {
         // response 객체가 통째로 수신된 상태
-        // response 객체 중에서 body부분만 json으로 변환하여
+        // reponse 객체 중에서 body부분만 json으로 변환하여
         // return
         return res.json();
       })
@@ -65,11 +66,7 @@ class BBSMain extends Component {
   bbsSave = (bbsData) => {
     const { b_id, b_writer, b_subject, b_content, isUpdate } = bbsData;
     const url = isUpdate ? BBS_UPDATE_URL : BBS_INSERT_URL;
-    const b_date_time = isUpdate
-      ? bbsData.b_date_time
-      : Date().toString()
-      ? this.state.b_date_time
-      : Date().toString();
+    const b_date_time = isUpdate ? bbsData.b_date_time : Date().toString();
     axios
       .post(url, {
         b_id: b_id,
@@ -81,7 +78,8 @@ class BBSMain extends Component {
       .then((result) => {
         console.log(result);
         this.fetchBBsList();
-      });
+      })
+      .catch((err) => console.log(err));
   };
 
   handleUpdate = (id) => {
@@ -90,14 +88,14 @@ class BBSMain extends Component {
         return res.json();
       })
       .then((result) => {
-        console.log(result);
-        this.fetchBBsList();
+        // console.log(result);
         // 서버로 부터 가져온 게시판 데이터를 bbsData에 풀어 놓고
         // isUpdate 칼럼만 true로 만들어라
         this.setState({ bbsData: { ...result, isUpdate: true } });
-        console.log(this.state.bbsData);
+        // console.log(this.state.bbsData);
       });
   };
+
   render() {
     const { state, bbsSave, fetchBBsList, handleUpdate } = this;
     const { bbsList, bbsData, isFetch } = state;
